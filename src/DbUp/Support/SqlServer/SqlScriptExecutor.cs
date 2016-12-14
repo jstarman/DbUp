@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using DbUp.Engine;
 using DbUp.Engine.Output;
@@ -88,7 +89,7 @@ namespace DbUp.Support.SqlServer
             if (Schema != null && !variables.ContainsKey("schema"))
                 variables.Add("schema", SqlObjectParser.QuoteSqlObjectName(Schema));
 
-            log().WriteInformation("Executing SQL Server script '{0}'", script.Name);
+            
 
             var contents = script.Contents;
             if (string.IsNullOrEmpty(Schema))
@@ -103,6 +104,7 @@ namespace DbUp.Support.SqlServer
             var index = -1;
             try
             {
+                var timer = Stopwatch.StartNew();
                 connectionManager.ExecuteCommandsWithManagedConnection(dbCommandFactory =>
                 {
                     foreach (var statement in scriptStatements)
@@ -127,6 +129,8 @@ namespace DbUp.Support.SqlServer
                         }
                     }
                 });
+                timer.Stop();
+                log().WriteInformation("Excuted Migration Script '{0}' {1}", script.Name, timer.Elapsed.ToString(@"hh\:mm\:ss\.FFF"));
             }
             catch (SqlException sqlException)
             {
