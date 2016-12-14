@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <package> 
   <metadata> 
-    <id>dbup_incomm</id> 
-    <title>DbUp_incomm</title>
+    <id>dbup</id> 
+    <title>DbUp</title>
     <version>$version$</version> 
     <authors>Paul Stovell, Jim Burger, Jake Ginnivan, Damian Maclennan</authors>
     <description>DbUp makes it easy to deploy and upgrade or rollback and downgrade SQL Server databases by running change scripts.</description> 
